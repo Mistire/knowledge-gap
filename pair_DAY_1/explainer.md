@@ -98,6 +98,32 @@ With this set, the model never enters the thinking phase — no think tokens are
 
 ---
 
+## What This Costs Amir in Real Numbers
+
+Amir's agent ran 1,179,597 total tokens at $0.15/task after policy-aware prompting. Qwen3 235B A22B on OpenRouter costs approximately $0.60/M output tokens.
+
+If think tokens are 3× the visible output — a conservative estimate for a reasoning model on multi-step sales tasks — then for every response token the user sees, the model generated 3 think tokens first:
+
+```text
+Output token split per call:
+  Think tokens:    75%  ← billed, discarded, inflate KV cache
+  Actual answer:   25%  ← the only part that reached the next agent step
+```
+
+Applied to his 1.18M token run:
+
+```text
+Assume ~40% of total tokens are output tokens = ~472,000 output tokens
+  Think tokens:  ~354,000  →  354,000 × $0.60/M = $0.21 in think token waste
+  Actual answer: ~118,000  →  the tokens doing real work
+```
+
+That $0.21 in think token waste is roughly the same as his entire $0.15 cost-per-task budget. Setting `enable_thinking=False` would effectively cut his output token cost in half — without changing the model, the prompt, or the task.
+
+To get the exact number: run one task with `include_reasoning=True`, read the `reasoning` field token count from the response, and multiply by $0.60/M. That's the precise waste per task.
+
+---
+
 ## Adjacent Concept: Prefill vs Decode Cost
 
 The think token problem sits inside a larger prefill/decode cost structure worth naming. Prefill is fast in aggregate but grows with input length. Decode is slow per-token but generates one token at a time. Think tokens live in decode (they're generated token by token) and then inflate the cost of subsequent decode steps. This is why reasoning models are disproportionately expensive for tasks where the reasoning trace is long relative to the answer — you're paying decode prices for every think token, and then paying again in slower decode for the actual response.
