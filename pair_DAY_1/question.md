@@ -8,7 +8,7 @@
 
 My Week 10 outreach agent (`agent/agent.py`, line 51) sends the same ~83-line `SYSTEM_PROMPT` on every LLM call through OpenRouter. The agent is multi-turn — each conversation turn re-sends the full message history including this fixed system prompt. I ran 3 concurrent tasks across 5 trials (150 task-trials total) and reported p95 task duration of 201s in my baseline, but I never decomposed where that time goes.
 
-**Does OpenRouter re-compute my system prompt's KV cache on every call, or does prefix caching mean I only pay that prefill cost once — and exactly what conditions cause a cache miss that forces a full recompute?**
+**Does OpenRouter's prefix caching eliminate the prefill cost of my repeated system prompt across turns, and how would I verify whether it's working?**
 
 If the system prompt tokens are re-computed on every call, then every turn in every multi-turn task is paying full prefill cost for ~83 tokens of context that never changes. If prefix caching is active and working, those tokens are served from cache after the first call. Either way, my p95 of 201s and my cost-per-task numbers in `baseline.md` have a hidden component I cannot currently explain or defend.
 
