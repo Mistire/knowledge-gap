@@ -21,8 +21,9 @@ pair_DAY_N/
 ## Days
 
 | Day | Topic | My Question | Explainer Written For |
-|-----|-------|-------------|----------------------|
+| --- | --- | --- | --- |
 | 1 | Inference-time mechanics | KV cache prefix caching in multi-turn agents | Amir Ahmedin — Qwen3 think token billing and KV cache occupancy |
+| 2 | Agent and tool-use internals | Function-calling at the token level vs. Python-gated scaffolded routing | TBD |
 
 ## Final Deliverables
 
