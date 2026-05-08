@@ -6,7 +6,7 @@ Each day: surface one real gap from existing work → sharpen it with a partner 
 
 ## Structure
 
-```
+```text
 pair_DAY_N/
 ├── question.md             # Final sharpened question + artifact connection
 ├── morning_call_summary.md # What was ambiguous, how the question was sharpened
@@ -25,6 +25,7 @@ pair_DAY_N/
 | 1 | Inference-time mechanics | KV cache prefix caching in multi-turn agents | Amir Ahmedin — Qwen3 think token billing and KV cache occupancy |
 | 2 | Agent and tool-use internals | Function-calling at the token level vs. Python-gated scaffolded routing | TBD |
 | 3 | Training and post-training mechanics | LoRA module selection — why q_proj/v_proj alone failed to move held-out rubric scores | Gersum Asfaw — LoRA rank as a production decision: mechanism and minimal experiment |
+| 4 | Evaluation and statistics | Statistical power in small-N benchmarks — MDE at n=41 and why Delta A = 0.000 ≠ no effect | Kidus Tewodros — Detecting length bias in a preference-tuned LLM judge |
 
 ## Final Deliverables
 
